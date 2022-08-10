@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 三種設定方式效果相同，resource屬性通過查詢相對路徑得到jdbc連線，url屬性通過絕對路徑獲取jdbc連線，也可以通過設定property標籤的方式指定jdbc連線 -->
+    <!-- 第一種方式，通過resource屬性設定相對路徑獲取jdbc連線 -->
+    <properties resource="../application.properties">
+        <!-- 第二種方式，通過url屬性設定絕對路徑獲取jdbc連線 -->
+            <!--url="file:///E:/workspace/workspace_idea03/demo-mybatis/day02_mybatis01_CRUD/src/main/resources/jdbcConfig.properties">-->
+        <!-- 第三種方式，設定property標籤的方式設定jdbc連線 -->
+        <!--<property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/base_crud"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>-->
+    </properties>
+
+    <!-- typeAliases用於設定別名，只能設定domain中類的別名 -->
+
+    <typeAliases>
+        <!-- typeAlias用於設定別名。type屬性設定實體類全限定類名。alias屬性指定別名，指定別名後則區分大小寫 -->
+        <!--<typeAlias type="cn.bruce.domain.User" alias="user"></typeAlias>-->
+        <!-- 用於指定設定別名的包，當指定後，該包下的實體類都會註冊別名，並且類名就是別名，並且不區分大小寫 -->
+        <!-- <package name="com.example.demo.mybatis"/> -->
+    </typeAliases>
+
+    <!-- 設定環境，設定jdbc連線和事務的控制 -->
+    <environments default="mysql">
+        <environment id="mysql">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/OWEN?characterEncoding=utf8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="P@ssw0rd"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 設定對映檔案 -->
+    <mappers>
+        <mapper resource="mapper/UserMapper.xml"></mapper>
+        <!-- package標籤用於指定dao介面所在的包，當指定以後就不需要再寫mapper以及resource或者class屬性了，但是要求對映檔案和dao介面處於同一個包 -->
+        <!--<package name="cn.bruce.dao"/>-->
+    </mappers>
+</configuration>

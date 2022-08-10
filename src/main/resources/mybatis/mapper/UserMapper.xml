@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:改mapper.xml映射文件的唯一标识并且必须和数据处理层的接口的路径相同 -->
+<mapper namespace="com.example.demo.mapper.UserMapper">
+	<!-- 必须添加property属性 ，区别于是否加主键 -->
+	<resultMap id="user" type="User">
+		<id column="id" property="id" javaType="int" />
+		<result column="name" property="name" javaType="String" />
+		<result column="email" property="email" javaType="String" />
+	</resultMap>
+	<!--id的值必须和数据处理层的接口名一致 -->
+	<!--此处的User -->
+	<select id="queryAlluser" resultType="com.example.demo.entity.User">
+		select * from user
+	</select>
+	<select id="queryuserbyid" parameterType="int" resultMap="user"
+		resultType="com.example.demo.entity.User">
+		select * from user
+		<trim suffixOverrides="and" prefixOverrides="and">
+			<where>
+				<if test="id!=null">
+					and id = #{id}
+				</if>
+			</where>
+		</trim>
+	</select>
+	<select id="queryuserbyname" resultType="User"
+		parameterType="string" resultMap="user">
+		select * from user
+		<trim suffixOverrides="and" prefixOverrides="and">
+			<where>
+				<if test="name!=null">
+					and name = #{name}
+				</if>
+			</where>
+		</trim>
+	</select>
+	<update id="UpdUser" parameterType="User"/>
+	<delete id="DelUser"></delete>
+	<insert id="AddUser" parameterType="User">
+		insert into user value
+		(#{id},#{name},#{eamil})
+	</insert>
+</mapper>
